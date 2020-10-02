@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html  xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'qcm')}">
+<head>
+<meta charset="UTF-8">
+<title>Questions</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+</head>
+<body>
+	
+<div class="container" layout:fragment="content">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Questions:</div>
+        <div class="panel-body">
+<!--             <a th:href="@{/questions/add(theme_id=${themeid})}" class="btn btn-primary btn-sm mb-3" th:if="${themeid}" >Ajouter question</a> -->
+<!--             <a th:href="@{/questions/add(qcm_id=${qcmId})}" class="btn btn-primary btn-sm mb-3" th:if="${qcmId}" >Ajouter question</a> -->
+            <form action="#" method="post">
+            
+	            <div th:each="q : ${listQuestion}">
+	            	
+	            	<h1 th:text="*{q.enonce}"></h1>
+	            	<th:block th:each="r : ${q.reponses}">
+		                <input type="checkbox" name="reponse" th:value="${r.id}"/>
+		                 <label th:text="${r.reponse}"></label>
+		                 <br>
+		            </th:block>
+		            <hr>
+		             
+	            </div>
+	            
+	            <button type="submit" class="btn btn-default btn-primary">Soumettre</button>
+            </form>
+
+            <div>
+                <ul class="nav nav-pills" th:if="${qcmId}">
+                    <li th:class="${status.index==pageCourante}?'active':''"
+                        th:each="p,status:${pages}">
+                        <a th:href="'/questions/list?qcm_id='+${qcmId}+'&page='+${status.index}+'&size='+${size}" th:text="${status.index}"></a>
+                    </li>
+                </ul>
+                <ul class="nav nav-pills" th:if="${themeid}">
+                    <li th:class="${status.index==pageCourante}?'active':''"
+                        th:each="p,status:${pages}" th:if="${themeid>=0}">
+                        <a th:href="'/questions/list?theme_id='+${themeid}+'&page='+${status.index}+'&size='+${size}" th:text="${status.index}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
